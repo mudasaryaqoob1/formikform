@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
-import Signup from "../sinup/page";
 // Validation Schema
 const LoginSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -22,20 +21,23 @@ const Login = () => {
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={LoginSchema}
-          onSubmit={(values) => {
-            const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
+         onSubmit={(values, { resetForm }) => {
+  const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
 
-            if (
-              savedUser.email === values.email &&
-              savedUser.password === values.password
-            ) {
-              console.log("Login Successful:", savedUser);
-              setMessage("✅ Login Successful!");
-            } else {
-              console.log("Login Failed");
-              setMessage("❌ Invalid email or password");
-            }
-          }}
+  if (
+    savedUser.email === values.email &&
+    savedUser.password === values.password
+  ) {
+    console.log("Login Successful:", savedUser);
+    setMessage("✅ Login Successful!");
+  } else {
+    console.log("Login Failed");
+    setMessage("❌ Invalid email or password");
+  }
+
+  // ✅ Form reset after submit
+  resetForm();
+}}
         >
           <Form className="space-y-4 text-black">
             {/* Email */}

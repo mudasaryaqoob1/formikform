@@ -23,13 +23,14 @@ const Signup = () => {
         <Formik
           initialValues={{ name: "", email: "", password: "" }}
           validationSchema={SignupSchema}
-          onSubmit={(values) => {
-            // ✅ User data localStorage me save karo
-            localStorage.setItem("user", JSON.stringify(values));
+          onSubmit={(values, { resetForm }) => {
+  localStorage.setItem("user", JSON.stringify(values));
+  console.log("Signup Data:", values);
+  alert("Signup successful! Now you can login.");
 
-            console.log("Signup Data:", values);
-            alert("Signup successful! Now you can login.");
-          }}
+  // ✅ Form reset karne ke liye
+  resetForm();
+}}
         >
           <Form className="space-y-4 text-black">
             {/* Name */}
